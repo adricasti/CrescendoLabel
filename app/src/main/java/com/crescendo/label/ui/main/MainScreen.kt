@@ -2,15 +2,12 @@ package com.crescendo.label.ui.main
 
 import android.content.Intent
 import android.provider.Settings
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -62,7 +59,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -129,6 +125,8 @@ fun MainScreen(
 
                 is MainScreenUiState.Success -> {
                     SuccessView(
+                        deviceName = state.deviceName,
+                        aaguid = state.aaguid,
                         serialNumber = state.serialNumber,
                         appletVersion = state.appletVersion,
                         onScanAnother = { viewModel.resetToPrompt() },
@@ -365,6 +363,8 @@ private fun ErrorView(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SuccessView(
+    deviceName: String,
+    aaguid: String?,
     serialNumber: String,
     appletVersion: String,
     onScanAnother: () -> Unit,
@@ -382,7 +382,7 @@ private fun SuccessView(
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Top status badge
+        // Top status badge with actual device name from AAGUID mapping
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -400,9 +400,9 @@ private fun SuccessView(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Crescendo Device Detected",
+                text = deviceName,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp,
+                fontSize = 15.sp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
@@ -492,6 +492,60 @@ private fun SuccessView(
             }
         }
 
+        // AAGUID Card (if retrieved)
+        if (aaguid != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedCard(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.outlinedCardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(18.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "FIDO2 AAGUID",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            letterSpacing = 1.sp
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = aaguid,
+                            fontSize = 13.sp,
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+
+                    IconButton(
+                        onClick = {
+                            clipboardManager.setText(AnnotatedString(aaguid))
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("AAGUID copied to clipboard")
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.ContentCopy,
+                            contentDescription = "Copy AAGUID",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            }
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         // Certifications Section
@@ -542,12 +596,12 @@ private fun SuccessView(
                     CertificationBadge(
                         title = "RoHS",
                         icon = painterResource(id = R.drawable.ic_cert_rohs),
-                        tint = null // Preserves authentic green color
+                        tint = null
                     )
                     CertificationBadge(
                         title = "REACH",
                         icon = painterResource(id = R.drawable.ic_cert_reach),
-                        tint = null // Preserves authentic blue/cyan badge
+                        tint = null
                     )
                 }
             }

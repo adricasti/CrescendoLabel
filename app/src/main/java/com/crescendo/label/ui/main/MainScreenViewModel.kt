@@ -17,6 +17,8 @@ sealed interface MainScreenUiState {
     data class Prompt(val nfcEnabled: Boolean = true) : MainScreenUiState
     data object Reading : MainScreenUiState
     data class Success(
+        val deviceName: String,
+        val aaguid: String?,
         val serialNumber: String,
         val appletVersion: String
     ) : MainScreenUiState
@@ -79,14 +81,34 @@ class MainScreenViewModel : ViewModel() {
                 return MainScreenUiState.Error("This does not seem to be a Crescendo device")
             }
 
-            // Extract serial number and applet version
+            // APDU Command 4: 00A4040008A0000006472F000100 (Select FIDO Application)
+            val cmd4 = CrescendoParser.hexToBytes("00A4040008A0000006472F000100")
+            val resp4 = isoDep.transceive(cmd4)
+            Log.d("CrescendoNfc", "CMD4 > 00A4040008A0000006472F000100 | RESP < ${resp4.joinToString("") { "%02X".format(it) }}")
+            if (!CrescendoParser.isStatus9000(resp4)) {
+                return MainScreenUiState.Error("This does not seem to be a Crescendo device")
+            }
+
+            // APDU Command 5: 80100000010400 (authenticatorGetInfo)
+            val cmd5 = CrescendoParser.hexToBytes("80100000010400")
+            val resp5 = isoDep.transceive(cmd5)
+            Log.d("CrescendoNfc", "CMD5 > 80100000010400 | RESP < ${resp5.joinToString("") { "%02X".format(it) }}")
+            if (!CrescendoParser.isStatus9000(resp5) || resp5.isEmpty() || resp5[0] != 0x00.toByte()) {
+                return MainScreenUiState.Error("This does not seem to be a Crescendo device")
+            }
+
+            // Extract serial number, applet version, and AAGUID
             val serial = CrescendoParser.extractSerialNumber(resp2)
             val version = CrescendoParser.extractAppletVersion(resp3)
+            val aaguid = CrescendoParser.extractAaguid(resp5)
 
             if (serial == null || version == null) {
                 MainScreenUiState.Error("This does not seem to be a Crescendo device")
             } else {
+                val deviceName = CrescendoParser.resolveDeviceName(aaguid)
                 MainScreenUiState.Success(
+                    deviceName = deviceName,
+                    aaguid = aaguid,
                     serialNumber = serial,
                     appletVersion = version
                 )
