@@ -1,0 +1,94 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <!-- Outer Ring -->
+    <path
+        android:strokeColor="#007ACC"
+        android:strokeWidth="7"
+        android:fillColor="#00000000"
+        android:pathData="M100,8 A92,92 0 1,1 99.9,8 Z" />
+    <path
+        android:strokeColor="#007ACC"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:pathData="M100,18 A82,82 0 1,1 99.9,18 Z" />
+
+    <!-- Top decorative element / chemical flask cap -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M75,48 L125,48 L120,56 L80,56 Z" />
+
+    <!-- LETTER R (approx x: 38..60, y: 75..115) -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M40,75 L54,75 C60,75 64,78 64,83 C64,88 60,91 54,91 L47,91 L47,115 L40,115 Z M47,81 L47,86 L53,86 C55.5,86 57,85 57,83.5 C57,82 55.5,81 53,81 Z" />
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M52,90 L64,115 L56,115 L46,90 Z" />
+
+    <!-- LETTER E (approx x: 67..85, y: 75..115) -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M68,75 L86,75 L86,81 L75,81 L75,92 L84,92 L84,97 L75,97 L75,109 L86,109 L86,115 L68,115 Z" />
+
+    <!-- LETTER A (approx x: 89..111, y: 75..115) -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M97,75 L103,75 L113,115 L106,115 L103.5,104 L96.5,104 L94,115 L87,115 Z M98,98 L102,98 L100,86 Z" />
+
+    <!-- LETTER C (approx x: 114..134, y: 75..115) -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M133,83 L127,86 C125.5,82.5 123,80.5 119.5,80.5 C114,80.5 110,85 110,95 C110,105 114,109.5 119.5,109.5 C123,109.5 125.5,107.5 127,104 L133,107 C130.5,112.5 125.5,115.5 119.5,115.5 C110,115.5 103,107 103,95 C103,83 110,74.5 119.5,74.5 C125.5,74.5 130.5,77.5 133,83 Z" />
+
+    <!-- LETTER H (approx x: 137..158, y: 75..115) -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M138,75 L145,75 L145,92 L153,92 L153,75 L160,75 L160,115 L153,115 L153,98 L145,98 L145,115 L138,115 Z" />
+
+    <!-- Pill ribbon for COMPLIANT -->
+    <path
+        android:fillColor="#007ACC"
+        android:pathData="M55,130 L145,130 C149,130 152,133 152,137 L152,143 C152,147 149,150 145,150 L55,150 C51,150 48,147 48,143 L48,137 C48,133 51,130 55,130 Z" />
+
+    <!-- Checkmark inside star or below ribbon -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M60,140 L65,145 L74,135" />
+
+    <!-- Stylized "COMPLIANT" text bars inside ribbon -->
+    <!-- C O M P L I A N T mini geometric bars -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,135 L86,135 L86,137 L82,137 L82,143 L86,143 L86,145 L80,145 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M88,135 L94,135 L94,145 L88,145 Z M90,137 L92,137 L92,143 L90,143 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M96,135 L102,135 L102,145 L100,145 L100,138 L99,141 L98,138 L98,145 L96,145 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M104,135 L109,135 C111,135 112,136 112,138 C112,140 111,141 109,141 L106,141 L106,145 L104,145 Z M106,137 L106,139 L109,139 C109.5,139 110,138.5 110,138 C110,137.5 109.5,137 109,137 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M114,135 L116,135 L116,143 L120,143 L120,145 L114,145 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M122,135 L124,135 L124,145 L122,145 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M126,135 L131,135 L132,145 L130,145 L129.5,142 L127.5,142 L127,145 L125,145 Z M128,140 L129,140 L128.5,137 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M134,135 L136,135 L138,141 L138,135 L140,135 L140,145 L138,145 L136,139 L136,145 L134,145 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M142,135 L148,135 L148,137 L146,137 L146,145 L144,145 L144,137 L142,137 Z" />
+</vector>
